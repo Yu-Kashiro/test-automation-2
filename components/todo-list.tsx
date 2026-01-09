@@ -57,22 +57,23 @@ export function TodoList() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-2 gap-2" data-testid="todo-list">
+      <ul className="space-y-2" data-testid="todo-list">
         {todos.length === 0 ? (
-          <p className="col-span-2 text-center text-muted-foreground py-8" data-testid="empty-message">
+          <li className="text-center text-muted-foreground py-8 list-none" data-testid="empty-message">
             No todos yet. Add one above!
-          </p>
+          </li>
         ) : (
           todos.map((todo) => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              onToggle={toggleTodo}
-              onDelete={deleteTodo}
-            />
+            <li key={todo.id} className="list-none">
+              <TodoItem
+                todo={todo}
+                onToggle={toggleTodo}
+                onDelete={deleteTodo}
+              />
+            </li>
           ))
         )}
-      </div>
+      </ul>
 
       {todos.length > 0 && (
         <p className="text-sm text-muted-foreground text-center" data-testid="todo-count">
