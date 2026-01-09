@@ -57,9 +57,9 @@ export function TodoList() {
         </Button>
       </div>
 
-      <div className="space-y-2" data-testid="todo-list">
+      <div className="grid grid-cols-2 gap-2" data-testid="todo-list">
         {todos.length === 0 ? (
-          <p className="text-center text-muted-foreground py-8" data-testid="empty-message">
+          <p className="col-span-2 text-center text-muted-foreground py-8" data-testid="empty-message">
             No todos yet. Add one above!
           </p>
         ) : (
