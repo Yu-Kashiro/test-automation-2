@@ -7,6 +7,7 @@ jobs:
   run-test:
     if: github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
@@ -24,6 +25,14 @@ jobs:
 
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps chromium
+
+      - name: Debug - Check if URL is accessible
+        run: |
+          echo "Testing URL: $BASE_URL"
+          curl -I -H "x-vercel-protection-bypass: $VERCEL_AUTOMATION_BYPASS_SECRET" "$BASE_URL" || true
+        env:
+          BASE_URL: ${{ github.event.deployment_status.target_url }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
 
       - name: Run Playwright tests
         run: pnpm test:e2e
