@@ -220,7 +220,7 @@ test.describe("Todo List", () => {
     const input = page.getByTestId("todo-input")
 
     // プレースホルダーが設定されていることを確認
-    await expect(input).toHaveAttribute("placeholder", "What needs to be done?")
+    await expect(input).toHaveAttribute("placeholder", "Add a new todo...")
   })
 
   test("has accessible add button with aria-label", async ({ page }) => {
