@@ -1,18 +1,14 @@
 name: Playwright Tests
 
 on:
-  repository_dispatch:
-    types:
-      - "vercel.deployment.success"
+  deployment_status:
 
 jobs:
   run-test:
-    if: github.event_name == 'repository_dispatch'
+    if: github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.client_payload.git.sha }}
 
       - uses: pnpm/action-setup@v4
         with:
@@ -32,7 +28,7 @@ jobs:
       - name: Run Playwright tests
         run: pnpm test:e2e
         env:
-          BASE_URL: ${{ github.event.client_payload.url }}
+          BASE_URL: ${{ github.event.deployment_status.target_url }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
 
       - uses: actions/upload-artifact@v4
